@@ -1,0 +1,4254 @@
+/*
+ * Author       : edenbe_post
+ * Generated on : 28-Aug-2025 11:50:59
+ * Version      : 1.0
+ */
+ application "מרכז קהילתי - המפגש"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Jerusalem"
+ 	time format = "24-hr"
+ 	forms
+	{
+		form Reports
+		{
+			displayname = "דו\"חות"
+			success message = "Data Added Successfully!"
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Payment_History
+		{
+			displayname = "היסטוריית תשלומים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			lookup_participant_name
+			(
+				type = picklist	
+				displayname = "שם משתתף"
+				values  = Participates.ID
+    			displayformat = [" " + participate_name.prefix + " " + participate_name.first_name + " " + participate_name.last_name + " " + participate_name.suffix]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			activity_name_payment_history
+			(
+    			type = text
+				displayname = "שם החוג"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			transferred
+			(
+				displayname = "סכו\"ם שהועבר"
+				type = ILS
+				format = commadotwestern
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			lookup_payment_method
+			(
+				type = picklist	
+				displayname = "אמצעי תשלום"
+				values  = Payments.ID
+    			bidirectional = subform_payment_history
+    			displayformat = [payment_method]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Rooms
+		{
+			displayname = "חדרים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			room_name
+			(
+    			type = text
+				displayname = "שם החדר"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			room_description
+			(
+    			type = text
+				displayname = "תיאור"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Activities
+		{
+			displayname = "חוגים ופעילויות"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			activity_name
+			(
+    			type = text
+				displayname = "שם החוג"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			activity_description
+			(
+    			type = textarea
+				displayname = "תיאור החוג"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			participate_price
+			(
+				displayname = "עלות השתתפות"
+				type = ILS
+				format = commadotwestern
+				decimalplace = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			lookup_room_name
+			(
+				type = picklist	
+				displayname = "שם חדר"
+				values  = Rooms.ID
+    			displayformat = [room_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			activity_day
+			(
+				type = picklist
+				displayname = "יום בשבוע"
+				maxchar = 100
+				values = {"יום א","יום ב","יום ג","יום ד","יום ה"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			start_time
+			(
+    			type = time
+				displayname = "שעת התחלה"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			end_time
+			(
+    			type = time
+				displayname = "שעת סיום"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			sub_form_participants
+			(
+				type = grid
+				displayname = "שמות משתתפים"
+				values  = Partners_Activity.ID
+    			bidirectional = lookup_activity
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			participants
+			(
+				type = section
+				displayname = "כמות משתתפים"
+				visibility = true
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			minimum_participants
+			(
+				type = number
+				displayname = "כמות משתתפים מינימלית"
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			maximum_participants
+			(
+				type = number
+				displayname = "כמות משתתפים מקסימלית"
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			actual_registered
+			(
+				type = number
+				displayname = "כמות רשומים בפועל"
+				initial value = 0
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			age_range
+			(
+				type = section
+				displayname = "מיועד לטווח גילאים"
+				visibility = true
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			from_age
+			(
+				type = number
+				displayname = "מגיל"
+				maxchar = 2
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			up_to_age
+			(
+				type = number
+				displayname = "עד גיל"
+				maxchar = 2
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			subform_guide
+			(
+				type = grid
+				displayname = "מדריכים המעבירים את החוג"
+				values  = Guides_Activities.ID
+    			bidirectional = activity_name
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Guides
+		{
+			displayname = "מדריכים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			employee_name
+			(
+    			type = name
+				displayname = "שם העובד"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="שם פרטי"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="שם משפחה"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			unique employee_email
+			(
+    			type = email
+				displayname = "כתובת דוא\"ל"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			unique employee_phone
+			(
+    			type = phonenumber
+				displayname = "מספר טלפון נייד"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			employee_address
+			(
+    			type = address
+				displayname = "כתובת "
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "כתובת"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "עיר"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+	     			 visibility = false
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+	     			 visibility = false
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "מדינה"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			active_guide
+			(
+    			type = checkbox
+				displayname = "מדריך פעיל"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			subform_activities
+			(
+				type = grid
+				displayname = "חוגים"
+				values  = Guides_Activities.ID
+    			bidirectional = guied_name
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Guides_Activities
+		{
+			displayname = "מדריכים - חוגים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			activity_name
+			(
+				type = picklist	
+				displayname = "שם חוג"
+				values  = Activities.ID
+    			bidirectional = subform_guide
+    			displayformat = [activity_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			guied_name
+			(
+				type = picklist	
+				displayname = "שם המדריך"
+				values  = Guides.ID
+    			bidirectional = subform_activities
+    			displayformat = [" " + employee_name.prefix + " " + employee_name.first_name + " " + employee_name.last_name + " " + employee_name.suffix]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			active
+			(
+    			type = checkbox
+				displayname = "פעיל"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Participates
+		{
+			displayname = "משתתפים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			participate_name
+			(
+    			type = name
+				displayname = "שם משתתף"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="שם פרטי"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="שם משפחה"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			participate_age
+			(
+				type = number
+				displayname = "גיל המשתתף"
+				maxchar = 2
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique participate_email
+			(
+    			type = email
+				displayname = "כתובת דוא\"ל"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			participate_phone
+			(
+    			type = phonenumber
+				displayname = "מספר טלפון נייד"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			participate_address
+			(
+    			type = address
+				displayname = "כתובת"
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "כתובת"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "עיר"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+	     			 visibility = false
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+	     			 visibility = false
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "מדינה"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			active_participan
+			(
+    			type = checkbox
+				displayname = "האם המשתתף פעיל "
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			sub_form_activity
+			(
+				type = grid
+				displayname = "חוגים"
+				values  = Partners_Activity.ID
+    			bidirectional = lookup_name_participant
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Partners_Activity
+		{
+			displayname = "משתתפים חוגים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			lookup_activity
+			(
+				type = picklist	
+				displayname = "חוג"
+				values  = Activities.ID
+    			bidirectional = sub_form_participants
+    			displayformat = [activity_name]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			lookup_name_participant
+			(
+				type = picklist	
+				displayname = "שם משתתף"
+				values  = Participates.ID
+    			bidirectional = sub_form_activity
+    			displayformat = [" " + participate_name.prefix + " " + participate_name.first_name + " " + participate_name.last_name + " " + participate_name.suffix]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			registered
+			(
+    			type = checkbox
+				displayname = "רשום"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Presence
+		{
+			displayname = "נוכחות"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			date_field
+			(
+    			type = datetime
+				displayname = "תאריך"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			lookup_activities_present
+			(
+				type = picklist	
+				displayname = "חוגים ופעילויות"
+				values  = Activities.ID
+    			displayformat = [activity_name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			subform_attendance_by_class
+			(
+				type = grid
+				displayname = "רשימת נוכחות"
+				values  = Attendance_By_Class.ID
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Attendance_By_Class
+		{
+			displayname = "נוכחות לפי חוגים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			activities_class_attendance
+			(
+				type = picklist	
+				displayname = "חוגים ופעילויות"
+				values  = Activities.ID
+    			displayformat = [activity_name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Lookup
+			(
+				type = picklist	
+				displayname = "שם משתתף"
+				values  = Participates.ID
+    			displayformat = [" " + participate_name.prefix + " " + participate_name.first_name + " " + participate_name.last_name + " " + participate_name.suffix]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			was_present
+			(
+    			type = checkbox
+				displayname = "האם נכח"
+				initial value = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form General_Data1
+		{
+			displayname = "נתונים כלליים"
+			success message = "הנתונים נקלטו בהצלחה!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			must have unique center_name
+			(
+    			type = text
+				displayname = "שם המרכז הקהילתי"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			center_address
+			(
+    			type = address
+				displayname = "כתובת משרדי המנהל"
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "כתובת"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "עיר"
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+	     			 visibility = false
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+	     			 visibility = false
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "מדינה"
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have unique center_email
+			(
+    			type = email
+				displayname = "כתובת דוא\"ל"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have unique center_phone
+			(
+    			type = phonenumber
+				displayname = "טלפון במרכז הקהילתי"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		properties
+		{
+			total entries
+			{
+				allowed count = 1
+				exceed message = "הי חבר/ה, כרגע לא ניתן להוסיף מרכז קהילתי נוסף."
+			}
+		}
+		}
+		form Waiting_List
+		{
+			displayname = "רשימת המתנה"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			lookup_participant_name
+			(
+				type = picklist	
+				displayname = "שם משתתף"
+				values  = Participates.ID
+    			displayformat = [" " + participate_name.prefix + " " + participate_name.first_name + " " + participate_name.last_name + " " + participate_name.suffix]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			lookup_activitie_name
+			(
+				type = picklist	
+				displayname = "שם החוג"
+				values  = Activities.ID
+    			displayformat = [activity_name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+		form Payments
+		{
+			displayname = "תשלומים"
+			success message = "Data Added Successfully!"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			lookup_participant_name
+			(
+				type = picklist	
+				displayname = "שם המשתתף"
+				values  = Participates[active_participan == true].ID
+    			displayformat = [" " + participate_name.prefix + " " + participate_name.first_name + " " + participate_name.last_name + " " + participate_name.suffix]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			invoice
+			(
+				type = grid
+				displayname = "חשבונית"
+				values  = Activities.ID
+	 			row = 2
+	 			column = 1   
+				width = medium
+			)
+			cost
+			(
+				type = section
+				displayname = "עלות"
+				visibility = true
+	 			row = 3
+	 			column = 0   
+				width = medium
+			)
+			total_payment
+			(
+				displayname = "סה\"כ תשלום"
+				type = ILS
+				format = commadotwestern
+	 			row = 3
+	 			column = 1   
+				width = medium
+			)
+			making_payment
+			(
+				type = section
+				displayname = "ביצוע תשלום"
+				visibility = true
+	 			row = 4
+	 			column = 0   
+				width = medium
+			)
+			payment_method
+			(
+				type = picklist
+				displayname = "אמצעי תשלום"
+				maxchar = 100
+				values = {"אשראי","מזומן","צ'ק","העברה בנקית"}
+				initial value = "אשראי"
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			transferred
+			(
+				displayname = "סכום שהועבר"
+				type = ILS
+				format = commadotwestern
+				initial value = 0
+				decimalplace = 0
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			balance_to_be_paid
+			(
+				displayname = "יתרה לתשלום"
+				type = ILS
+				format = commadotwestern
+				initial value = 0
+				decimalplace = 0
+	 			row = 4
+	 			column = 1   
+				width = medium
+			)
+			subform_payment_history
+			(
+				type = grid
+				displayname = "היסטוריית תשלומים"
+				values  = Payment_History.ID
+    			bidirectional = lookup_payment_method
+	 			row = 5
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					SubForm_1
+					(
+   						type = submit
+   						displayname = "שלח"
+					)
+				}
+				on edit
+				{
+					SubForm_11
+					(
+   						type = submit
+   						displayname = "עדכון"
+					)
+					Cancel1
+					(
+   						type = cancel
+   						displayname = "ביטול"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		default list General_Data
+		{
+			displayName = "נתונים כלליים"
+			show all rows from General_Data1    
+			(
+				center_name as "שם המרכז הקהילתי"
+				center_address  as "כתובת משרדי המנהל"
+	 			(
+	      			displayformat = [address_line_1+""+address_line_2+""+district_city+""+state_province+""+postal_Code+""+country]
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				center_email as "כתובת דוא\"ל"
+				center_phone as "טלפון במרכז הקהילתי"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+			)
+		}
+		default list Participants
+		{
+			displayName = "משתתפים"
+			show all rows from Participates    
+			(
+				participate_name  as "שם משתתף"
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				participate_email as "כתובת דוא\"ל"
+				participate_phone as "מספר טלפון נייד"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				participate_address  as "כתובת"
+	 			(
+	      			displayformat = [address_line_1+""+address_line_2+""+district_city+""+state_province+""+postal_Code+""+country]
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				participate_age as "גיל המשתתף"
+				active_participan as "האם המשתתף פעיל "
+				sub_form_activity.lookup_activity as "חוגים"
+			)
+		}
+		default custom Classes_Activities
+		{
+			displayName = "חוגים ופעילויות"
+			show all rows from Activities    
+			(
+				activity_name as "שם החוג"
+				activity_description as "תיאור החוג"
+				participate_price as "עלות השתתפות"
+				from_age as "מגיל"
+				up_to_age as "עד גיל"
+				lookup_room_name as "שם חדר"
+				activity_day as "יום בשבוע"
+			)
+			customlayouts
+			(
+				template
+	 			(
+	 	  			displayname="Custom Layout 1"
+	 	  			content="<panel  \n >\n	<pr \n			width='fill'\n		height='fill'\n>\n	<pc \n		padding = '17px'\n	bgColor = '#FFFFFF'\n\n		width = '100%'\n		hAlign = 'center'\n		vAlign = 'middle'\n>\n	<pr \n			width='auto'\n		height='auto'\n>\n	<pc \n	\n>\n	\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>"
+	    		)
+			)
+		}
+		default list Guides1
+		{
+			displayName = "מדריכים"
+			show all rows from Guides    
+			(
+				employee_name  as "שם העובד"
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				employee_email as "כתובת דוא\"ל"
+				employee_phone as "מספר טלפון נייד"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				employee_address  as "כתובת "
+	 			(
+	      			displayformat = [address_line_1+""+address_line_2+""+district_city+""+state_province+""+postal_Code+""+country]
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				active_guide as "מדריך פעיל"
+				subform_activities.activity_name as "חוגים"
+			)
+		}
+		default list Instructors___Classes
+		{
+			displayName = "מדריכים - חוגים"
+			show all rows from Guides_Activities    
+			(
+				activity_name as "שם חוג"
+				guied_name as "שם המדריך"
+				active as "פעיל"
+			)
+		}
+		default list Payments1
+		{
+			displayName = "תשלומים"
+			show all rows from Payments    
+			(
+				lookup_participant_name as "שם המשתתף"
+				total_payment as "סה\"כ תשלום"
+				transferred as "סכום שהועבר"
+				balance_to_be_paid as "יתרה לתשלום"
+				custom action "ביצוע תשלום"
+				(
+	  			workflow = Making_a_payment_for_clas
+				show action in edit record menu = true
+				column header = "ביצוע תשלום"
+				condition = (balance_to_be_paid != 0)
+				confirmation before execution
+				(
+					message for individual record = "הי חבר/ה יקר/ה האם את/ה מעוניין/ת לשלם את הסכו\"ם ${transferred} ?"
+					confirm button text = "כן, לך על זה "		
+					cancel button text = "לא, תשמע דבר איתי בעשירי"
+				)
+				)
+				Modified_Time as "Modified Time"
+				invoice.activity_name as "חשבונית"
+			)
+			customlayouts
+			(
+				template
+	 			(
+	 	  			displayname="Custom Layout 1"
+	 	  			content="<panel  \n >\n	<pr \n			width='fill'\n		height='fill'\n>\n	<pc \n		padding = '17px'\n	bgColor = '#FFFFFF'\n\n		width = '100%'\n		hAlign = 'center'\n		vAlign = 'middle'\n>\n	<pr \n			width='auto'\n		height='auto'\n>\n	<pc \n	\n>\n	\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>"
+	    		)
+			)
+		}
+		default list Rooms1
+		{
+			displayName = "חדרים"
+			show all rows from Rooms    
+			(
+				room_name as "שם החדר"
+				room_description as "תיאור"
+			)
+		}
+		default list Class_Participants
+		{
+			displayName = "משתתפים חוגים"
+			show all rows from Partners_Activity    
+			(
+				lookup_activity as "חוג"
+				lookup_name_participant as "שם משתתף"
+				registered as "רשום"
+			)
+		}
+		default list Waiting_List2
+		{
+			displayName = "רשימת המתנה"
+			show all rows from Waiting_List    
+			(
+				lookup_participant_name as "שם משתתף"
+				lookup_activitie_name as "שם החוג"
+				lookup_participant_name.Modified_Time as "Modified Time"
+			)
+		}
+		default list Payment_History1
+		{
+			displayName = "היסטוריית תשלומים"
+			show all rows from Payment_History    
+			(
+				lookup_participant_name as "שם משתתף"
+				transferred as "סכו\"ם שהועבר"
+				lookup_payment_method as "אמצעי תשלום"
+				activity_name_payment_history as "שם החוג"
+				Modified_Time as "Modified Time"
+			)
+		}
+		default list form_Report
+		{
+			displayName = "נוכחות"
+			show all rows from Presence    
+			(
+				date_field as "תאריך"
+				lookup_activities_present as "חוגים ופעילויות"
+				subform_attendance_by_class.Lookup as "רשימת נוכחות"
+			)
+		}
+		default list form_Report1
+		{
+			displayName = "נוכחות לפי חוגים"
+			show all rows from Attendance_By_Class    
+			(
+				activities_class_attendance as "חוגים ופעילויות"
+				Lookup as "משתתפים"
+				was_present as "האם נכח"
+			)
+		}
+		default list form_Report2
+		{
+			displayName = "דו\"חות Report"
+			show all rows from Reports    
+		}
+	}
+	pages
+	{
+		page htmlview
+		{
+			displayname = "דשבורד"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<search \n\telementName='Search'\n\tpaddingTop = '40px'\n\tpaddingLeft = '80px'\n\tpaddingRight = '80px'\n\tpaddingBottom = '40px'\n\tbgtype = 'none'\n\tbgColor = '#FFFFFF'\n\n\tshape = 'rounded'\n\tresultComponent = 'report'\n\tlinkName = 'Participants'\n\ttarget = 'popup'\n\tcriteriaString = 'participate_name.first_name == input.searchString'\n\tfontFamily = 'default'\n\tappLinkName = 'thisapp'\n\tstyle = '4'\n\tplaceholder = 'Enter value'\n\n\t\n\ttitle = '\u05D0\u05D9\u05EA\u05D5\u05E8 \u05DE\u05E9\u05EA\u05EA\u05E4\u05D9\u05DD'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#184899'\n>\n<searchbar color=\"#000000\" bgColor=\"#FFFFFF\" fontSize=\"15px\"\n\/><searchbutton color=\"#FFFFFF\" bgColor=\"#0072F4\" \nfontSize=\"15px\"  \/><\/search>\n<\/column>\n<\/row><row>\n\t<column\n   \t\t width='33%'\n   \t>\n\t<panel elementName='Board 1'\n \n\t\n\ttitle = '\u05E0\u05D9\u05D5\u05D5\u05D8 \u05DE\u05D4\u05D9\u05E8'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#7C1899'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#DADADA'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n\t\tvAlign = 'middle'\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Participants'\n\t\ttarget = 'same-window'\n\tcolor = '#7C1899'\n\tsize = '14px'\n    borderColor = '#7C1899'\n    borderWidth = '1px'\n\ttext ='\u05E8\u05D9\u05E9\u05D5\u05DD \u05DC\u05D7\u05D5\u05D2\u05D9\u05DD'\n\t\tbgColor = '#E1BDF3'\n\t\tcornerRadius = '60px' \n\/>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '0px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Payments1'\n\t\ttarget = 'same-window'\n\tcolor = '#7C1899'\n\tsize = '14px'\n    borderColor = '#7C1899'\n    borderWidth = '1px'\n\ttext ='\u05DE\u05E2\u05D1\u05E8 \u05DC\u05EA\u05E9\u05DC\u05D5\u05DD'\n\t\tbgColor = '#E1BDF3'\n\t\tcornerRadius = '60px' \n\/>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr><pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '0px'\n\tpaddingLeft = '17px'\n\tpaddingRight = '17px'\n\tpaddingBottom = '17px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<button \n\t\tmargin = '0px'\n\tpaddingTop = '12px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '12px'\n\n    action = 'OpenReport'\n\t\tcomponentLinkName = 'Classes_Activities'\n\t\ttarget = 'same-window'\n\tcolor = '#7C1899'\n\tsize = '14px'\n    borderColor = '#7C1899'\n    borderWidth = '1px'\n\ttext ='\u05D7\u05D5\u05D2\u05D9\u05DD \u05D5\u05E4\u05E2\u05D9\u05DC\u05D5\u05D9\u05D5\u05EA'\n\t\tbgColor = '#E1BDF3'\n\t\tcornerRadius = '60px' \n\/>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column><column\n   \t\t width='36%'\n   \t>\n\t<chart \n\telementName='Chart 2'\n\n\t\n\ttitle = '\u05DE\u05E2\u05E7\u05D1 \u05E8\u05E9\u05D9\u05DE\u05EA \u05D4\u05DE\u05EA\u05E0\u05D4'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#F06ECB'\n\ttype = 'Column'\n\txtitle = '\u05D7\u05D5\u05D2'\n\tytitle = '\u05DB\u05DE\u05D5\u05EA'\n\tbgColor = '#FCE1EA'\n\ttheme = 'theme4'\n\tlegendPos = 'none'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Waiting_List'\n\txfield = 'lookup_activitie_name.activity_name'\n\tyfields = 'count:lookup_participant_name.active_participan'\n\tshowDataLabel = 'true'\n\tunderlyingReport = 'Waiting_List2'\n\t\tDelugeCriteria = 'lookup_participant_name.active_participan == true'\n\/>\n\n<\/column><column\n   \t\t width='31%'\n   \t>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '7px' \n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n    borderColor = '#E1BDF3'\n    borderWidth = '0px'\n\tcolor = '#FFFFFF'\n\tbgColor = '#CC81EC'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'business-gold'\n\tsize = '24px'\n\tcornerRadius = '26px'\n\ticonType = 'outline'\n\/>\n<\/pc><pc \n\t\tpadding = '5px'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#B328DC'\n\tsize = '16px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = '#F9F9F9'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#D7A3F0'\n    borderWidth = '0px'\n\n\t  value = '\u05E1\u05DB\u05D5\u05DD \u05E9\u05D4\u05D5\u05E2\u05D1\u05E8 \u05D4\u05D7\u05D5\u05D3\u05E9'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#D7A3F0'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#F3F3F3'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'COMMA'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#2A70E7'\n    borderWidth = '0px'\n\n\t\tcriteria = 'Modified_Time in this month'\n\t  value = 'thisapp.Payments.transferred.sum'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column>\n<\/row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginRight = '7px' \n\n\tcolor = '#FFFFFF'\n\tbgColor = '#2A70E7'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'business-gold'\n\tsize = '24px'\n\tcornerRadius = '26px'\n\ticonType = 'solid'\n\/>\n<\/pc><pc \n\t\tpadding = '5px'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = 'theme:35'\n\tsize = '16px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t  value = '\u05D9\u05EA\u05E8\u05D4 \u05DC\u05EA\u05E9\u05DC\u05D5\u05DD \u05DC\u05D7\u05D5\u05D3\u05E9 \u05D4\u05E0\u05D5\u05DB\u05D7\u05D9'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#2A70E7'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'COMMA'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#2A70E7'\n    borderWidth = '0px'\n\n\t\tcriteria = 'Modified_Time in this month'\n\t  value = 'thisapp.Payments.balance_to_be_paid.sum'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column>\n<\/row>\n<\/column>\n<\/row>\n<\/column>\n<\/row><row>\n\t<column\n   \t\t width='38%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\t\n\ttitle = '\u05E4\u05E2\u05D9\u05DC\u05D5\u05EA \u05DE\u05D3\u05E8\u05D9\u05DB\u05D9\u05DD \u05DC\u05D7\u05D5\u05D2\u05D9\u05DD'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#AA550C'\n\ttype = 'Stacked Bar'\n\txtitle = '\u05D7\u05D5\u05D2'\n\tytitle = '\u05DE\u05D3\u05E8\u05D9\u05DA \u05E4\u05E2\u05D9\u05DC'\n\tbgColor = '#F7FFBD'\n\ttheme = 'theme4'\n\tlegendPos = 'center.top'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Guides_Activities'\n\txfield = 'activity_name.activity_name'\n\tyfields = 'count:guied_name.active_guide'\n\tgroupBy = 'guied_name.active_guide'\n\/>\n\n<\/column><column\n   \t\t width='46%'\n   \t>\n\t<board\n    \n\tbgColor = '#FFFFFF'\n        bgColorType = 'solid'\n\tpadding = '0px'\nelementName='Board'\n    layoutType = 'carousel'\n    appLinkName = 'thisapp'\n    formLinkName = 'Activities'\n    rankBy = 'ID'\n    rankOrder = 'highestToLowest'\n    rankAggregate = 'count'\n    limit = '5'\n    groupBy = 'activity_day'\n>\n<boardHeader>\n    <pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '15px'\n\tpaddingRight = '15px'\n\tpaddingBottom = '14px'\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\n    borderColor = '#444444'\n    borderWidth = '0px'\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n    \tcornerRadius = '0px'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#00CFA9'\n\tsize = '15px'\n\tbold = 'true' \n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\n\t  value = '\u05DB\u05DE\u05D5\u05EA \u05D7\u05D5\u05D2\u05D9\u05DD \u05DC\u05E4\u05D9 \u05D9\u05DE\u05D9\u05DD'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/boardHeader>\n<boardLayout\n                paddingRight = '10px'\n                paddingBottom = '10px'\n                paddingLeft = '10px'\n                bgColor = '#BCEDDD'\n                paddingTop = '2px'\n                itemGap = '5px'\n>\n    <pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '10px'\n\n    borderColor = '#F2F2F2'\n    borderWidth = '1px'\n\t\twidth = '100%'\n\t\tvAlign = 'middle'\n    \tcornerRadius = '12px'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '15px'\n\tmarginTop = '0px'\n\n    borderColor = '#000000'\n    borderWidth = '0px'\n\tcolor = '#000000'\n\tbgColor = '#F7F7FB'\n\twidth = '47.9792px'\n\theight = '47.9792px'\n\ttype = 'icon'\n\tvalue = 'ui-2-time'\n\tsize = '20px'\n\tcornerRadius = '24px'\n\ticonType = 'outline'\n\/>\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginBottom = '15px'\n\tcolor = '#000000'\n\tsize = '16px'\n\ttype = 'boardData'\n\n\n    lineHeight = '18'\n    numOfLines = '1'\n\n\n\n\n\n\t  value = 'groupedField'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = 'theme'\n\tsize = '17px'\n\tbold = 'true' \n\ttype = 'boardData'\n\n\n    lineHeight = '20'\n    numOfLines = '1'\n\n\n\n\n\n\t  value = 'rankAggregate'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/boardLayout>\n<\/board>\n<\/column><column\n   \t\t width='16%'\n   \t>\n\t<panel elementName='Board 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#E5FFE3'\n\n\t\twidth = '100%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '7px' \n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n    borderColor = '#FFFFFF'\n    borderWidth = '0px'\n\tcolor = '#FFFFFF'\n\tbgColor = '#A5D479'\n\twidth = '52px'\n\theight = '52px'\n\ttype = 'icon'\n\tvalue = 'emoticons-quite-happy'\n\tsize = '24px'\n\tcornerRadius = '26px'\n\ticonType = 'outline'\n\/>\n<\/pc><pc \n\t\tpadding = '5px'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmargin = '0px'\n\tpadding = '0px'\n\tcolor = '#047B33'\n\tsize = '16px'\n\ttype = 'Text'\n\n\tbgColor = 'transparent'\n        bgColorType = 'noFill'\n\tcornerRadius = '0px'\n\n\n\n\n\n    borderColor = '#333333'\n    borderWidth = '0px'\n\n\t  value = '\u05DE\u05E1\u05E4\u05E8 \u05DE\u05E9\u05EA\u05EA\u05E4\u05D9\u05DD \u05E4\u05E2\u05D9\u05DC\u05D9\u05DD'\n>\n<\/text>\n\n<\/pc>\n<\/pr><pr \n\t>\n\t<pc \n\t\n\t\thAlign = 'left'\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '2px'\n\tpadding = '0px'\n\tcolor = '#047B33'\n\tsize = '36px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = '#E7FFC7'\n\tcornerRadius = '0px'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n    borderColor = '#FFA9A3'\n    borderWidth = '0px'\n\n\t\tcriteria = 'active_participan == true'\n\t  value = 'thisapp.Participates.ID.count'\n>\n<\/text>\n\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/pc>\n<\/pr>\n<\/panel>\n<\/column>\n<\/row><row>\n\t<column\n   \t\t width='52%'\n   \t>\n\t<chart \n\telementName='Chart 4'\n\n\t\n\ttitle = '\u05DB\u05DE\u05D5\u05EA \u05E0\u05D5\u05DB\u05D7\u05D9\u05DD \u05DC\u05D7\u05D5\u05D2\u05D9\u05DD'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#F26422'\n\ttype = 'Bar'\n\txtitle = '\u05D7\u05D5\u05D2'\n\tytitle = '\u05DB\u05DE\u05D5\u05EA \u05E0\u05D5\u05DB\u05D7\u05D9\u05DD'\n\tbgColor = '#F7F0C6'\n\ttheme = 'theme2'\n\tlegendPos = 'none'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Presence'\n\txfield = 'lookup_activities_present.activity_name'\n\tyfields = 'count:ID'\n\tshowDataLabel = 'true'\n\tunderlyingReport = 'form_Report'\n\t\tDelugeCriteria = 'subform_attendance_by_class.was_present == true'\n\/>\n\n<\/column><column\n   \t\t width='48%'\n   \t>\n\t<chart \n\telementName='Chart'\n\n\t\n\ttitle = '\u05DB\u05DE\u05D5\u05EA \u05E8\u05E9\u05D5\u05DE\u05D9\u05DD \u05D1\u05E4\u05D5\u05E2\u05DC \u05DC\u05E4\u05D9 \u05D7\u05D5\u05D2'\n\t\n            boldTitle = 'true'\n\t\ttitleColor = '#FFA0A8'\n\ttype = 'Column'\n\txtitle = '\u05D7\u05D5\u05D2'\n\tytitle = '\u05DB\u05DE\u05D5\u05EA \u05E8\u05E9\u05D5\u05DE\u05D9\u05DD \u05D1\u05E4\u05D5\u05E2\u05DC'\n\tbgColor = '#F4E1F5'\n\ttheme = 'theme3'\n\tlegendPos = 'center.top'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Activities'\n\txfield = 'activity_name'\n\tyfields = 'value:actual_registered'\n\/>\n\n<\/column>\n<\/row>\n<\/layout>\n<\/zml>"
+		}
+		page htmlview1
+		{
+			displayname = "לוח זמנים"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<dsp id='html_snippet' elementName='HTML Snippet'\n bgColor=\"#FFFFFF\" \n>\n\t<![CDATA[htmlpage html_snippet()\ncontent\n&lt;%{\n\t%&gt;\n&lt;!DOCTYPE html&gt;\n&lt;html lang=&quot;he&quot; dir=&quot;rtl&quot;&gt;\n&lt;head&gt;\n    &lt;meta charset=&quot;UTF-8&quot;&gt;\n    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;\n    &lt;title&gt;\u05DE\u05E2\u05E8\u05DB\u05EA \u05E9\u05E2\u05D5\u05EA \u05DE\u05DC\u05D0\u05D4 - \u05DE\u05E8\u05DB\u05D6 \u05E7\u05D4\u05D9\u05DC\u05EA\u05D9 \u05D4\u05DE\u05E4\u05D2\u05E9&lt;\/title&gt;\n    &lt;link href=&quot;https:\/\/cdnjs.cloudflare.com\/ajax\/libs\/font-awesome\/6.0.0\/css\/all.min.css&quot; rel=&quot;stylesheet&quot;&gt;\n    &lt;style&gt;\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        body {\n            font-family: &apos;Segoe UI&apos;, Tahoma, Geneva, Verdana, sans-serif;\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n            min-height: 100vh;\n            direction: rtl;\n            padding: 1rem;\n        }\n\n        .schedule-container {\n            max-width: 1400px;\n            margin: 0 auto;\n            background: rgba(255, 255, 255, 0.95);\n            border-radius: 20px;\n            padding: 2rem;\n            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);\n            backdrop-filter: blur(10px);\n        }\n\n        .schedule-header {\n            text-align: center;\n            margin-bottom: 2rem;\n        }\n\n        .schedule-title {\n            color: #00AD8C;\n            font-size: 2.5rem;\n            font-weight: bold;\n            margin-bottom: 0.5rem;\n        }\n\n        .schedule-subtitle {\n            color: #666;\n            font-size: 1.2rem;\n            margin-bottom: 1rem;\n        }\n\n        .current-time {\n            color: #333;\n            font-size: 1rem;\n            margin-bottom: 2rem;\n        }\n\n        .schedule-grid {\n            display: grid;\n            grid-template-columns: 150px repeat(7, 1fr);\n            gap: 1px;\n            background: #ddd;\n            border-radius: 15px;\n            overflow: hidden;\n            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);\n        }\n\n        .time-slot, .day-header, .activity-cell {\n            background: white;\n            padding: 0.8rem;\n            min-height: 80px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            text-align: center;\n            position: relative;\n        }\n\n        .day-header {\n            background: linear-gradient(135deg, #00AD8C, #1BC5BD);\n            color: white;\n            font-weight: bold;\n            font-size: 1.1rem;\n            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n        }\n\n        .time-slot {\n            background: linear-gradient(135deg, #f8f9fa, #e9ecef);\n            font-weight: 600;\n            color: #495057;\n            border-left: 4px solid #00AD8C;\n            flex-direction: column;\n            justify-content: center;\n            font-size: 0.9rem;\n        }\n\n        .time-slot .time-main {\n            font-size: 1rem;\n            font-weight: bold;\n            margin-bottom: 0.2rem;\n        }\n\n        .time-slot .time-sub {\n            font-size: 0.7rem;\n            color: #666;\n        }\n\n        .activity-cell {\n            position: relative;\n            transition: all 0.3s ease;\n            cursor: pointer;\n        }\n\n        .activity-cell:hover {\n            background: #f0f9ff;\n            transform: scale(1.02);\n        }\n\n        .activity {\n            color: white;\n            padding: 0.6rem;\n            border-radius: 8px;\n            width: 100%;\n            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);\n            transition: all 0.3s ease;\n            position: relative;\n            overflow: hidden;\n            font-size: 0.75rem;\n        }\n\n        .activity::before {\n            content: &apos;&apos;;\n            position: absolute;\n            top: 0;\n            left: 0;\n            right: 0;\n            bottom: 0;\n            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);\n            pointer-events: none;\n        }\n\n        .activity:hover {\n            transform: translateY(-2px);\n            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);\n        }\n\n        .activity-name {\n            font-weight: bold;\n            font-size: 0.8rem;\n            margin-bottom: 0.3rem;\n            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n        }\n\n        .activity-details {\n            font-size: 0.65rem;\n            opacity: 0.95;\n            display: flex;\n            flex-direction: column;\n            gap: 0.2rem;\n        }\n\n        .activity-room, .activity-price {\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            gap: 0.3rem;\n        }\n\n        .activity-price {\n            font-weight: 600;\n            font-size: 0.7rem;\n        }\n\n        \/* \u05E6\u05D1\u05E2\u05D9\u05DD \u05D9\u05D9\u05D7\u05D5\u05D3\u05D9\u05D9\u05DD \u05DC\u05DB\u05DC \u05D7\u05D5\u05D2 *\/\n        .activity.zumba { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }\n        .activity.ai { background: linear-gradient(135deg, #4ECDC4, #44A08D); }\n        .activity.music { background: linear-gradient(135deg, #A8EDEA, #fed6e3); color: #333; }\n        .activity.computers { background: linear-gradient(135deg, #667eea, #764ba2); }\n        .activity.singing { background: linear-gradient(135deg, #f093fb, #f5576c); }\n        .activity.voice { background: linear-gradient(135deg, #4facfe, #00f2fe); }\n        .activity.therapy { background: linear-gradient(135deg, #43e97b, #38f9d7); }\n        .activity.dance { background: linear-gradient(135deg, #fa709a, #fee140); }\n        .activity.fitness { background: linear-gradient(135deg, #667eea, #764ba2); }\n        .activity.art { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }\n        .activity.cooking { background: linear-gradient(135deg, #ff9a9e, #fecfef); }\n        .activity.photography { background: linear-gradient(135deg, #667eea, #764ba2); }\n        .activity.yoga { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }\n        .activity.languages { background: linear-gradient(135deg, #667eea, #764ba2); }\n        .activity.craft { background: linear-gradient(135deg, #fa709a, #fee140); }\n\n        .empty-cell {\n            color: #bbb;\n            font-style: italic;\n            font-size: 0.8rem;\n            background: linear-gradient(135deg, #f8f9fa, #ffffff);\n        }\n\n        .schedule-legend {\n            margin-top: 2rem;\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n            gap: 1rem;\n        }\n\n        .legend-item {\n            display: flex;\n            align-items: center;\n            gap: 0.8rem;\n            padding: 0.8rem;\n            background: rgba(248, 249, 250, 0.8);\n            border-radius: 10px;\n            transition: all 0.3s ease;\n            border: 1px solid rgba(0, 0, 0, 0.05);\n            font-size: 0.9rem;\n        }\n\n        .legend-item:hover {\n            background: rgba(248, 249, 250, 1);\n            transform: translateY(-2px);\n            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n        }\n\n        .legend-color {\n            width: 20px;\n            height: 20px;\n            border-radius: 4px;\n            flex-shrink: 0;\n        }\n\n        .legend-text {\n            font-weight: 500;\n            color: #333;\n        }\n\n        .schedule-stats {\n            margin-top: 2rem;\n            display: grid;\n            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));\n            gap: 1rem;\n        }\n\n        .stat-item {\n            background: linear-gradient(135deg, #667eea, #764ba2);\n            color: white;\n            padding: 1.5rem;\n            border-radius: 12px;\n            text-align: center;\n            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);\n            transition: transform 0.3s ease;\n        }\n\n        .stat-item:hover {\n            transform: translateY(-3px);\n        }\n\n        .stat-number {\n            font-size: 2rem;\n            font-weight: bold;\n            margin-bottom: 0.5rem;\n            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n\n        .stat-label {\n            font-size: 0.9rem;\n            opacity: 0.9;\n        }\n\n        \/* \u05E8\u05E1\u05E4\u05D5\u05E0\u05E1\u05D9\u05D1\u05D9\u05D5\u05EA *\/\n        @media (max-width: 1200px) {\n            .schedule-grid {\n                font-size: 0.8rem;\n            }\n            \n            .time-slot, .day-header, .activity-cell {\n                padding: 0.6rem;\n                min-height: 70px;\n            }\n        }\n\n        @media (max-width: 768px) {\n            body {\n                padding: 0.5rem;\n            }\n            \n            .schedule-container {\n                padding: 1rem;\n            }\n            \n            .schedule-grid {\n                grid-template-columns: 80px repeat(7, 1fr);\n                font-size: 0.7rem;\n            }\n            \n            .time-slot, .day-header, .activity-cell {\n                padding: 0.4rem;\n                min-height: 60px;\n            }\n            \n            .activity {\n                padding: 0.4rem;\n            }\n            \n            .activity-name {\n                font-size: 0.7rem;\n            }\n            \n            .activity-details {\n                font-size: 0.6rem;\n            }\n            \n            .schedule-title {\n                font-size: 1.8rem;\n            }\n        }\n\n        .fade-in {\n            animation: fadeIn 0.8s ease-in;\n        }\n\n        @keyframes fadeIn {\n            from { opacity: 0; transform: translateY(30px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n    &lt;\/style&gt;\n&lt;\/head&gt;\n&lt;body&gt;\n    &lt;div class=&quot;schedule-container fade-in&quot;&gt;\n        &lt;div class=&quot;schedule-header&quot;&gt;\n            &lt;h1 class=&quot;schedule-title&quot;&gt;\n                &lt;i class=&quot;fas fa-calendar-week&quot;&gt;&lt;\/i&gt;\n                \u05DE\u05E2\u05E8\u05DB\u05EA \u05E9\u05E2\u05D5\u05EA \u05DE\u05DC\u05D0\u05D4\n            &lt;\/h1&gt;\n            &lt;p class=&quot;schedule-subtitle&quot;&gt;\u05DE\u05E8\u05DB\u05D6 \u05E7\u05D4\u05D9\u05DC\u05EA\u05D9 \u05D4\u05DE\u05E4\u05D2\u05E9 - \u05DB\u05DC \u05D4\u05D7\u05D5\u05D2\u05D9\u05DD \u05D5\u05D4\u05E4\u05E2\u05D9\u05DC\u05D5\u05D9\u05D5\u05EA&lt;\/p&gt;\n            &lt;div class=&quot;current-time&quot;&gt;\n                &lt;i class=&quot;fas fa-clock&quot;&gt;&lt;\/i&gt;\n                &lt;span id=&quot;currentDateTime&quot;&gt;&lt;\/span&gt;\n            &lt;\/div&gt;\n        &lt;\/div&gt;\n\n        &lt;div class=&quot;schedule-grid&quot;&gt;\n            &lt;!-- Header Row --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;&lt;strong&gt;\u05E9\u05E2\u05D4&lt;\/strong&gt;&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D0&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D1&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D2&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D3&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D4&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05D9\u05D5\u05DD \u05D5&lt;\/div&gt;\n            &lt;div class=&quot;day-header&quot;&gt;\u05E9\u05D1\u05EA&lt;\/div&gt;\n\n            &lt;!-- 10:00-11:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;10:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;11:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity ai&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D1\u05D9\u05E0\u05D4 \u05DE\u05DC\u05D0\u05DB\u05D5\u05EA\u05D9\u05EA&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 B&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,394&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity fitness&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D1\u05DC\u05D8&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D0\u05D5\u05DC\u05DD A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,394&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 12:00-13:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;12:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;13:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity music&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DB\u05D3\u05D5\u05E8\u05D2\u05DC&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 C&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,406&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity photography&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DB\u05D3\u05D5\u05E8\u05E1\u05DC&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D0\u05D5\u05DC\u05DD D&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,412&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity art&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E6\u05D9\u05D5\u05E8&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05E1\u05D8\u05D5\u05D3\u05D9\u05D5 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,710&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 13:00-14:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;13:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;14:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity voice&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E4\u05D9\u05EA\u05D5\u05D7 \u05E7\u05D5\u05DC&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 F&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,296&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity dance&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E8\u05D9\u05E7\u05D5\u05D3&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D0\u05D5\u05DC\u05DD B&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,342&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity cooking&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E9\u05D7\u05DE\u05D8&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05DE\u05D8\u05D1\u05D7 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,780&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 15:00-16:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;15:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;16:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity craft&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D9\u05D5\u05D2\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05E1\u05D8\u05D5\u05D3\u05D9\u05D5 B&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,654&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity languages&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D8\u05E0\u05D9\u05E1&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 G&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,213&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity therapy&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DE\u05D3\u05E2\u05D9\u05DD&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 F&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,454&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 16:00-17:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;16:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;17:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity yoga&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E7\u05E8\u05DE\u05D9\u05E7\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D0\u05D5\u05DC\u05DD C&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,316&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity singing&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E9\u05D9\u05E8\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 E&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,367&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity fitness&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E9\u05D7\u05DE\u05D8&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 H&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,780&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 17:00-18:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;17:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;18:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity zumba&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D6\u05D5\u05DE\u05D1\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,664&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity craft&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E7\u05E4\u05D5\u05D0\u05E8\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05E1\u05D8\u05D5\u05D3\u05D9\u05D5 C&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,609&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity cooking&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DE\u05D3\u05E2\u05D9\u05DD&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05DE\u05E2\u05D1\u05D3\u05D4 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,213&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity computers&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DE\u05D7\u05E9\u05D1\u05D9\u05DD&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 D&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,757&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity languages&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05E8\u05D5\u05D1\u05D5\u05D8\u05D9\u05E7\u05D4&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D7\u05D3\u05E8 I&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,235&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n\n            &lt;!-- 18:00-19:00 --&gt;\n            &lt;div class=&quot;time-slot&quot;&gt;\n                &lt;div class=&quot;time-main&quot;&gt;18:00&lt;\/div&gt;\n                &lt;div class=&quot;time-sub&quot;&gt;19:00&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity fitness&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05DB\u05D3\u05D5\u05E8\u05D2\u05DC&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D0\u05D5\u05DC\u05DD D&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,406&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity art&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05EA\u05D9\u05D0\u05D8\u05E8\u05D5\u05DF&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05D1\u05D9\u05DE\u05D4 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,398&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell&quot;&gt;\n                &lt;div class=&quot;activity dance&quot;&gt;\n                    &lt;div class=&quot;activity-name&quot;&gt;\u05D2\u05D5\u05DC\u05E3&lt;\/div&gt;\n                    &lt;div class=&quot;activity-details&quot;&gt;\n                        &lt;div class=&quot;activity-room&quot;&gt;\u05DE\u05D2\u05E8\u05E9 A&lt;\/div&gt;\n                        &lt;div class=&quot;activity-price&quot;&gt;\u20AA1,624&lt;\/div&gt;\n                    &lt;\/div&gt;\n                &lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05D6\u05DE\u05DF \u05E4\u05E0\u05D5\u05D9&lt;\/div&gt;\n            &lt;div class=&quot;activity-cell empty-cell&quot;&gt;\u05E9\u05D1\u05EA \u05E7\u05D5\u05D3\u05E9&lt;\/div&gt;\n        &lt;\/div&gt;\n\n        &lt;div class=&quot;schedule-stats&quot;&gt;\n            &lt;div class=&quot;stat-item&quot;&gt;\n                &lt;div class=&quot;stat-number&quot;&gt;27&lt;\/div&gt;\n                &lt;div class=&quot;stat-label&quot;&gt;\u05D7\u05D5\u05D2\u05D9\u05DD \u05E4\u05E2\u05D9\u05DC\u05D9\u05DD&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;stat-item&quot;&gt;\n                &lt;div class=&quot;stat-number&quot;&gt;\u20AA32,424&lt;\/div&gt;\n                &lt;div class=&quot;stat-label&quot;&gt;\u05E1\u05D4&quot;\u05DB \u05D4\u05DB\u05E0\u05E1\u05D5\u05EA \u05E9\u05D1\u05D5\u05E2\u05D9\u05D5\u05EA&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;stat-item&quot;&gt;\n                &lt;div class=&quot;stat-number&quot;&gt;15&lt;\/div&gt;\n                &lt;div class=&quot;stat-label&quot;&gt;\u05D7\u05D3\u05E8\u05D9\u05DD \u05D1\u05E9\u05D9\u05DE\u05D5\u05E9&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;stat-item&quot;&gt;\n                &lt;div class=&quot;stat-number&quot;&gt;27&lt;\/div&gt;\n                &lt;div class=&quot;stat-label&quot;&gt;\u05E9\u05E2\u05D5\u05EA \u05D4\u05D5\u05E8\u05D0\u05D4 \u05E9\u05D1\u05D5\u05E2\u05D9\u05D5\u05EA&lt;\/div&gt;\n            &lt;\/div&gt;\n            &lt;div class=&quot;stat-item&quot;&gt;\n                &lt;div class=&quot;stat-number&quot;&gt;320+&lt;\/div&gt;\n                &lt;div class=&quot;stat-label&quot;&gt;\u05DE\u05E9\u05EA\u05EA\u05E4\u05D9\u05DD \u05E8\u05E9\u05D5\u05DE\u05D9\u05DD&lt;\/div&gt;\n            &lt;\/div&gt;\n        &lt;\/div&gt;\n    &lt;\/div&gt;\n\n    &lt;script&gt;\n        \/\/ \u05E2\u05D3\u05DB\u05D5\u05DF \u05D6\u05DE\u05DF \u05E0\u05D5\u05DB\u05D7\u05D9\n        function updateDateTime() {\n            const now = new Date();\n            const options = { \n                weekday: &apos;long&apos;,\n                year: &apos;numeric&apos;, \n                month: &apos;long&apos;, \n                day: &apos;numeric&apos;,\n                hour: &apos;2-digit&apos;,\n                minute: &apos;2-digit&apos;,\n                second: &apos;2-digit&apos;\n            };\n            \n            document.getElementById(&apos;currentDateTime&apos;).textContent = \n                now.toLocaleDateString(&apos;he-IL&apos;, options);\n        }\n\n        updateDateTime();\n        setInterval(updateDateTime, 1000);\n\n        \/\/ \u05D0\u05E4\u05E7\u05D8\u05D9\u05DD \u05D0\u05D9\u05E0\u05D8\u05E8\u05D0\u05E7\u05D8\u05D9\u05D1\u05D9\u05D9\u05DD \u05DC\u05D7\u05D5\u05D2\u05D9\u05DD\n        document.querySelectorAll(&apos;.activity&apos;).forEach(activity =&gt; {\n            activity.addEventListener(&apos;mouseenter&apos;, function() {\n                this.style.transform = &apos;translateY(-2px) scale(1.05)&apos;;\n            });\n            \n            activity.addEventListener(&apos;mouseleave&apos;, function() {\n                this.style.transform = &apos;translateY(0) scale(1)&apos;;\n            });\n        });\n\n        \/\/ \u05E4\u05D5\u05E0\u05E7\u05E6\u05D9\u05D5\u05E0\u05DC\u05D9\u05D5\u05EA \u05DC\u05D7\u05D9\u05E6\u05D4 \u05E2\u05DC \u05D7\u05D5\u05D2\u05D9\u05DD\n        document.querySelectorAll(&apos;.activity&apos;).forEach(activity =&gt; {\n            activity.addEventListener(&apos;click&apos;, function() {\n                const activityName = this.querySelector(&apos;.activity-name&apos;).textContent.trim();\n                const room = this.querySelector(&apos;.activity-room&apos;).textContent.trim();\n                const price = this.querySelector(&apos;.activity-price&apos;).textContent.trim();\n                \n                alert(`? \u05E4\u05E8\u05D8\u05D9 \u05D4\u05D7\u05D5\u05D2:\\n\\n` +\n                      `? ${activityName}\\n` +\n                      `? ${room}\\n` +\n                      `? ${price}\\n\\n` +\n                      `\u05DC\u05D7\u05E5 OK \u05DC\u05D7\u05D6\u05D5\u05E8 \u05DC\u05DE\u05E2\u05E8\u05DB\u05EA \u05D4\u05E9\u05E2\u05D5\u05EA`);\n            });\n        });\n\n        \/\/ \u05D4\u05D3\u05D2\u05E9\u05EA \u05D4\u05E9\u05E2\u05D4 \u05D4\u05E0\u05D5\u05DB\u05D7\u05D9\u05EA\n        function highlightCurrentTime() {\n            const now = new Date();\n            const currentHour = now.getHours();\n            \n            \/\/ \u05D4\u05E1\u05E8\u05EA \u05D4\u05D3\u05D2\u05E9\u05D5\u05EA \u05E7\u05D5\u05D3\u05DE\u05D5\u05EA\n            document.querySelectorAll(&apos;.activity&apos;).forEach(activity =&gt; {\n                activity.style.boxShadow = activity.style.boxShadow.replace(&apos;inset&apos;, &apos;&apos;);\n            });\n            \n            \/\/ \u05D4\u05D3\u05D2\u05E9\u05EA \u05D7\u05D5\u05D2\u05D9\u05DD \u05E9\u05DE\u05EA\u05E7\u05D9\u05D9\u05DE\u05D9\u05DD \u05E2\u05DB\u05E9\u05D9\u05D5\n            const timeSlots = {\n                10: [&apos;.activity.ai&apos;],\n                12: [&apos;.activity.music&apos;, &apos;.activity.photography&apos;],\n                13: [&apos;.activity.voice&apos;, &apos;.activity.dance&apos;],\n                15: [&apos;.activity.craft&apos;, &apos;.activity.therapy&apos;],\n                16: [&apos;.activity.singing&apos;, &apos;.activity.yoga&apos;],\n                17: [&apos;.activity.zumba&apos;, &apos;.activity.computers&apos;],\n                18: [&apos;.activity.fitness&apos;, &apos;.activity.art&apos;]\n            };\n            \n            if (timeSlots[currentHour]) {\n                timeSlots[currentHour].forEach(selector =&gt; {\n                    const activity = document.querySelector(selector);\n                    if (activity) {\n                        activity.style.boxShadow += &apos;inset 0 0 20px rgba(255, 255, 255, 0.5)&apos;;\n                    }\n                });\n            }\n        }\n\n        highlightCurrentTime();\n        setInterval(highlightCurrentTime, 60000); \/\/ \u05D1\u05D3\u05D9\u05E7\u05D4 \u05DB\u05DC \u05D3\u05E7\u05D4\n    &lt;\/script&gt;\n&lt;\/body&gt;\n&lt;\/html&gt;\n&lt;%\n\n}%&gt;]]>\n<\/dsp>\n<\/column>\n<\/row>\n<\/layout>\n<\/zml>"
+		}
+	}
+
+
+		workflow
+		{
+		form
+		{
+			Send_Email_Form_Propertie as "Send Email - Form Properties"
+			{
+				type =  presuccess
+				form = General_Data1
+				on start
+				{
+					actions 
+					{
+						sendmail
+						(
+							from : "zoho.adminuserid"
+							to : "zoho.adminuserid"
+							subject : "מרכז קהילתי - המפגש : New entry added"
+							message : "Hello,<br/><br/>A new entry added in 'נתונים כלליים' form of 'מרכז קהילתי - המפגש' application.<br/><br><br>"
+							attachments : template : _default as inline
+						)
+					}
+				}
+			}
+			Hiding_irrelevant_fields as "Hiding irrelevant fields"
+			{
+				type =  form
+				form = Payments
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											hide invoice.minimum_participants;
+										hide invoice.end_time;
+										hide invoice.activity_day;
+										hide invoice.start_time;
+										hide invoice.lookup_room_name;
+										hide invoice.actual_registered;
+										hide invoice.maximum_participants;
+										hide invoice.activity_description;
+										hide invoice.up_to_age;
+										hide invoice.from_age;
+						)
+					}
+				}
+
+			}
+			The_subform_will_not_be_e as "The subform will not be editable"
+			{
+				type =  form
+				form = Activities
+				record event = on edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable sub_form_participants.lookup_name_participant;
+										disable sub_form_participants.lookup_activity;
+										disable sub_form_participants.registered;
+						)
+					}
+				}
+
+			}
+			Adds_a_record_to_the_numb as "Adds a record to the number of participants"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// איסוף כל החוגים המושפעים
+										affected_activities = List();
+										for each  row in input.sub_form_activity
+										{
+											if(row.lookup_activity != null)
+											{
+												activity_id = row.lookup_activity;
+												if(!affected_activities.contains(activity_id))
+												{
+													affected_activities.add(activity_id);
+												}
+											}
+										}
+										// עדכון ספירה מדויקת עבור כל חוג
+										for each  activity_id in affected_activities
+										{
+											// ספירה מחדש של כל הרשומים לחוג זה
+											registered_count = Partners_Activity[lookup_activity == activity_id && registered == true].count();
+											// עדכון הספירה בחוג
+											activity_rec = Activities[ID == activity_id];
+											activity_rec.actual_registered=registered_count;
+										}
+						)
+					}
+				}
+
+			}
+			Participant_Update_Regist as "Participant Update - Registration Change"
+			{
+				type =  form
+				form = Participates
+				record event = on edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// עובר על כל שורות תת-הטופס
+										for each  row in input.sub_form_activity
+										{
+											// רק אם המשתתף הסיר את הסימון (כלומר לא רשום)
+											if(row.registered == false)
+											{
+												// קבל את מזהה החוג עבור שורת המשתתף
+												activity_id = row.lookup_activity;
+												activity = Activities[ID == activity_id];
+												// נעדכן רק אם יש ערך נוכחי גדול מ־0
+												if(activity.actual_registered != null && activity.actual_registered > 0)
+												{
+													activity.actual_registered=activity.actual_registered - 1;
+													info "המשתתף הוסר בהצלחה! ";
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Correct_number_of_partici1 as "Correct number of participants - minimum"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// עבור על כל שורה בתת־הטופס של משתתפים
+										for each  row in input.sub_form_activity
+										{
+											activity_id = row.lookup_activity;
+											activity = Activities[ID == activity_id];
+											// קבל את המקסימום והמספר בפועל
+											min_num_participants = activity.minimum_participants;
+											actual_num = activity.actual_registered;
+											// אם כמות רשומים בפועל מגיעה למקסימום – בטל את השמירה
+											if(actual_num != null && min_num_participants != null && actual_num < min_num_participants)
+											{
+												alert "הי, תודה שהצטרפת לחוג! כרגע מספר המשתתפים הינו קטן מהמינימום אז במידה ויהיו מספיק משתתפים אז תקבל פרטים נוספים.";
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Set_Israel_as_an_initial_ as "Set Israel as an initial value"
+			{
+				type =  form
+				form = Participates
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											input.participate_address.country = "Israel";
+						)
+					}
+				}
+
+			}
+			List_of_classes_and_costs as "List of classes and costs for the participant"
+			{
+				type =  form
+				form = Payments
+				record event = on add or edit
+
+				on user input of lookup_participant_name
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Workflow עבור טופס Payments
+										// Event: on user input of lookup_participant_name
+										participant_id = input.lookup_participant_name;
+										if(participant_id != null)
+										{
+											// מציאת החוגים של המשתתף
+											participant_activities = Partners_Activity[lookup_name_participant == participant_id && registered == true];
+											if(participant_activities.count() > 0)
+											{
+												// ניקוי ה subform
+												input.invoice.clear();
+												// יצירת שורות חדשות
+												invoice_rows = Collection();
+												total = 0;
+												for each  rec in participant_activities
+												{
+													// קבלת פרטי החוג
+													activity = Activities[ID == rec.lookup_activity];
+													if(activity != null)
+													{
+														// יצירת שורה חדשה
+														row = Payments.invoice();
+														row.activity_name=activity.activity_name;
+														row.participate_price=activity.participate_price;
+														// הוספה לאוסף
+														invoice_rows.insert(row);
+														// חישוב סכום
+														total = total + activity.participate_price;
+													}
+												}
+												// הכנסת השורות לsubform
+												input.invoice.insert(invoice_rows);
+												// עדכון הסכום הכולל
+												input.total_payment = total;
+												input.balance_to_be_paid = total - input.transferred;
+												info "נוספו " + participant_activities.count() + " חוגים. סכום: " + total;
+											}
+											else
+											{
+												alert "לא נמצאו חוגים למשתתף";
+												input.invoice.clear();
+												input.total_payment = 0;
+											}
+										}
+						)
+					}
+				}
+
+			}
+			If_the_participant_is_ina as "If the participant is inactive"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on user input of sub_form_activity.lookup_activity
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.active_participan != true)
+										{
+											alert "שימ/י לב המשתתף/ת אינו/ה פעיל/ה, לכן לא ניתן בסטטוס זה לבצע רישום לחוג ";
+											row.lookup_activity=null;
+										}
+						)
+					}
+				}
+
+			}
+			Duplicate_checker as "Duplicate checker"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// רשימה לבדיקת כפילויות בתוך הטופס הנוכחי
+										activities_in_form = List();
+										// עובר על כל השורות בסאבפורם
+										for each  row in input.sub_form_activity
+										{
+											if(row.lookup_activity != null && row.registered == true)
+											{
+												activity_id = row.lookup_activity;
+												// בדיקה שהחוג לא נבחר כבר בטופס הנוכחי
+												if(activities_in_form.contains(activity_id))
+												{
+													activity_rec = Activities[ID == activity_id];
+													alert "שגיאה: החוג '" + activity_rec.activity_name + "' נבחר יותר מפעם אחת. אנא הסר את הכפילות.";
+													cancel submit;
+												}
+												// הוספה לרשימה
+												activities_in_form.add(activity_id);
+												// בדיקה במסד הנתונים - האם המשתתף כבר רשום לחוג זה
+												participant_id = input.ID;
+												if(participant_id != null)
+												{
+													existing = Partners_Activity[lookup_name_participant == participant_id && lookup_activity == activity_id && registered == true && ID != row.ID];
+													if(existing.count() > 0)
+													{
+														activity_rec = Activities[ID == activity_id];
+														alert "המשתתף כבר רשום לחוג '" + activity_rec.activity_name + "'. לא ניתן לרשום אותו שוב.";
+														cancel submit;
+													}
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Check_if_the_guide_is_act as "Check if the guide is active"
+			{
+				type =  form
+				form = Guides
+				record event = on add or edit
+
+				on user input of subform_activities.activity_name
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.active_guide != true)
+										{
+											alert "שימ/י לב המדריך/ה אינו/ה פעיל/ה, לכן לא ניתן לשבץ אותו לחוג ";
+											row.activity_name=null;
+										}
+						)
+					}
+				}
+
+			}
+			Set_Israel_as_a_default_c as "Set Israel as a default country"
+			{
+				type =  form
+				form = Guides
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											input.employee_address.country = "Israel";
+						)
+					}
+				}
+
+			}
+			guide_not_found_in_2_clas as "guide not found in 2 classes in the same time"
+			{
+				type =  form
+				form = Guides
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// בדיקה עבור כל חוג בסאבפורם של המדריך
+										for each  row in input.subform_activities
+										{
+											if(row.activity_name != null && row.active == true)
+											{
+												current_activity_id = row.activity_name;
+												current_activity = Activities[ID == current_activity_id];
+												if(current_activity != null)
+												{
+													current_day = current_activity.activity_day;
+													current_start = current_activity.start_time;
+													current_end = current_activity.end_time;
+													if(current_day != null && current_start != null && current_end != null)
+													{
+														// בדיקת חפיפה עם חוגים אחרים באותו סאבפורם
+														for each  other_row in input.subform_activities
+														{
+															if(other_row.activity_name != null && other_row.active == true && other_row.activity_name != row.activity_name)
+															{
+																other_activity = Activities[ID == other_row.activity_name];
+																if(other_activity != null)
+																{
+																	other_day = other_activity.activity_day;
+																	other_start = other_activity.start_time;
+																	other_end = other_activity.end_time;
+																	// בדיקת חפיפה באותו יום
+																	if(other_day == current_day && current_start < other_end && current_end > other_start)
+																	{
+																		guide_name = input.employee_name.first_name + " " + input.employee_name.last_name;
+																		alert "שגיאה: המדריך " + guide_name + " לא יכול להיות משובץ לשני חוגים באותו זמן! חפיפה בין " + current_activity.activity_name + " ו-" + other_activity.activity_name + " " + current_day;
+																		row.activity_name=null;
+																		cancel submit;
+																	}
+																}
+															}
+														}
+														// בדיקת חפיפה עם שיבוצים קיימים במסד הנתונים (רק בעריכה)
+														guide_id = input.ID;
+														if(guide_id != null)
+														{
+															existing_assignments = Guides_Activities[guied_name == guide_id && active == true];
+															for each  existing in existing_assignments
+															{
+																// דילוג על השיבוץ הנוכחי אם הוא כבר קיים
+																if(existing.activity_name != current_activity_id)
+																{
+																	existing_activity = Activities[ID == existing.activity_name];
+																	if(existing_activity != null)
+																	{
+																		existing_day = existing_activity.activity_day;
+																		existing_start = existing_activity.start_time;
+																		existing_end = existing_activity.end_time;
+																		if(existing_day == current_day && current_start < existing_end && current_end > existing_start)
+																		{
+																			guide_name = input.employee_name.first_name + " " + input.employee_name.last_name;
+																			alert "שגיאה: המדריך " + guide_name + " כבר משובץ לחוג " + existing_activity.activity_name + " " + existing_day;
+																			row.activity_name=null;
+																			cancel submit;
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			participant_not_found_in_1 as "participant not found in 2 classes same time"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// בדיקה עבור כל חוג בסאבפורם של המשתתף
+										for each  row in input.sub_form_activity
+										{
+											if(row.lookup_activity != null && row.registered == true)
+											{
+												current_activity_id = row.lookup_activity;
+												current_activity = Activities[ID == current_activity_id];
+												if(current_activity != null)
+												{
+													current_day = current_activity.activity_day;
+													current_start = current_activity.start_time;
+													current_end = current_activity.end_time;
+													if(current_day != null && current_start != null && current_end != null)
+													{
+														// בדיקת חפיפה עם חוגים אחרים באותו סאבפורם
+														for each  other_row in input.sub_form_activity
+														{
+															if(other_row.lookup_activity != null && other_row.registered == true && other_row.lookup_activity != row.lookup_activity)
+															{
+																other_activity = Activities[ID == other_row.lookup_activity];
+																if(other_activity != null)
+																{
+																	other_day = other_activity.activity_day;
+																	other_start = other_activity.start_time;
+																	other_end = other_activity.end_time;
+																	// בדיקת חפיפה באותו יום
+																	if(other_day == current_day && current_start < other_end && current_end > other_start)
+																	{
+																		participant_name = input.participate_name.first_name + " " + input.participate_name.last_name;
+																		alert "שגיאה: המשתתף " + participant_name + " לא יכול להיות רשום לשני חוגים באותו זמן! חפיפה בין " + current_activity.activity_name + " ו-" + other_activity.activity_name + " " + current_day;
+																		row.lookup_activity=null;
+																		cancel submit;
+																	}
+																}
+															}
+														}
+														// בדיקת חפיפה עם רישומים קיימים במסד הנתונים (רק בעריכה)
+														participant_id = input.ID;
+														if(participant_id != null)
+														{
+															existing_registrations = Partners_Activity[lookup_name_participant == participant_id && registered == true];
+															for each  existing in existing_registrations
+															{
+																// דילוג על הרישום הנוכחי אם הוא כבר קיים
+																if(existing.lookup_activity != current_activity_id)
+																{
+																	existing_activity = Activities[ID == existing.lookup_activity];
+																	if(existing_activity != null)
+																	{
+																		existing_day = existing_activity.activity_day;
+																		existing_start = existing_activity.start_time;
+																		existing_end = existing_activity.end_time;
+																		if(existing_day == current_day && current_start < existing_end && current_end > existing_start)
+																		{
+																			participant_name = input.participate_name.first_name + " " + input.participate_name.last_name;
+																			alert "שגיאה: המשתתף " + participant_name + " כבר רשום לחוג " + existing_activity.activity_name + " " + existing_day;
+																			row.lookup_activity=null;
+																			cancel submit;
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Waiting_list_entry as "Waiting list entry"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											activities_to_wait_list = List();
+										for each  row in input.sub_form_activity
+										{
+											if(row.lookup_activity != null && row.registered == true)
+											{
+												activity_id = row.lookup_activity;
+												activity = Activities[ID == activity_id];
+												max_num_participants = activity.maximum_participants;
+												actual_num = activity.actual_registered;
+												if(actual_num != null && max_num_participants != null && actual_num > max_num_participants)
+												{
+													activities_to_wait_list.add(activity_id);
+												}
+											}
+										}
+										for each  activity_id in activities_to_wait_list
+										{
+											waiting_rec = insert into Waiting_List
+											[
+												lookup_participant_name=input.ID
+												lookup_activitie_name=activity_id
+												Added_User=zoho.loginuser
+											];
+											for each  row in input.sub_form_activity
+											{
+												if(row.lookup_activity == activity_id && row.registered == true)
+												{
+													row.registered=false;
+													break;
+												}
+											}
+											activity = Activities[ID == activity_id];
+											activity.actual_registered=activity.actual_registered - 1;
+											activity_name = activity.activity_name;
+											participant_name = input.participate_name.first_name + " " + input.participate_name.last_name;
+											info "המשתתף " + participant_name + " נוסף לרשימת המתנה לחוג '" + activity_name + "' כי החוג מלא.";
+										}
+						)
+					}
+				}
+
+			}
+			Checking_rooms_at_the_sam as "Checking rooms at the same time"
+			{
+				type =  form
+				form = Activities
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// בדיקה שכל השדות מלאים
+										if(input.lookup_room_name != null && input.activity_day != null && input.start_time != null && input.end_time != null)
+										{
+											// קבל כל הפעילויות במערכת
+											conflict_found = false;
+											conflict_activity = "";
+											all_activities = Activities[ID != 0];
+											for each  check_activity in all_activities
+											{
+												// דלג על הפעילות הנוכחית
+												if(input.ID != null && check_activity.ID == input.ID)
+												{
+													continue;
+												}
+												// בדוק רק אם באותו חדר ויום (ללא בדיקת זמנים)
+												if(check_activity.lookup_room_name == input.lookup_room_name && check_activity.activity_day == input.activity_day)
+												{
+													conflict_found = true;
+													conflict_activity = check_activity.activity_name;
+													break;
+												}
+											}
+											// אם נמצאה התנגשות
+											if(conflict_found)
+											{
+												alert " החדר כבר בשימוש ב " + input.activity_day + " עבור החוג " + conflict_activity + "אנא בחר חדר אחר";
+												cancel submit;
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Checking_the_age_of_the_p as "Checking the age of the participant"
+			{
+				type =  form
+				form = Participates
+				record event = on add or edit
+
+				on user input of sub_form_activity.lookup_activity
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											participate_age_check = Activities[ID == row.lookup_activity];
+										if(input.participate_age < participate_age_check.from_age || input.participate_age > participate_age_check.up_to_age)
+										{
+											alert "המשתתף אינו בטווח גילאים של החוג";
+											row.lookup_activity=null;
+										}
+						)
+					}
+				}
+
+			}
+			Update_list_of_registered as "Update list of registered participants"
+			{
+				type =  form
+				form = Presence
+				record event = on add or edit
+
+				on add row of subform_attendance_by_class
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// מעדכן את המשתתפים לפי חוג שנבחר
+										selected_activity = input.lookup_activities_present;
+										attendance_date = input.date_field;
+										if(selected_activity != null && attendance_date != null)
+										{
+											// בדיקה שלא קיימת כבר נוכחות לאותו חוג באותו תאריך
+											existing_attendance = Presence[lookup_activities_present == selected_activity && date_field == attendance_date && ID != input.ID];
+											if(existing_attendance.count() > 0)
+											{
+												alert "שגיאה: כבר קיימת רשומת נוכחות עבור החוג הזה בתאריך " + attendance_date.toString("dd/MM/yyyy");
+											}
+											else
+											{
+												// מציאת כל המשתתפים שרשומים לחוג זה
+												activity_participants = Partners_Activity[lookup_activity == selected_activity && registered == true];
+												if(activity_participants.count() > 0)
+												{
+													// ניקוי הרשימה הקיימת
+													input.subform_attendance_by_class.clear();
+													// יצירת שורות חדשות
+													attendance_rows = Collection();
+													for each  participant_record in activity_participants
+													{
+														// בדיקה שהמשתתף קיים ולא ריק
+														if(participant_record.lookup_name_participant != null)
+														{
+															// יצירת שורה חדשה בסאב פורם
+															new_row = Presence.subform_attendance_by_class();
+															// העתקת הנתונים מהרשומה הקיימת
+															new_row.activities_class_attendance=participant_record.lookup_activity;
+															new_row.Lookup=participant_record.lookup_name_participant;
+															new_row.was_present=false;
+															// סימון נוכחות - ברירת מחדל false
+															attendance_rows.insert(new_row);
+														}
+													}
+													// הכנסת כל השורות לטופס
+													input.subform_attendance_by_class.insert(attendance_rows);
+												}
+												else
+												{
+													alert "החוג שנבחר לא כולל משתתפים פעילים";
+												}
+											}
+										}
+										else
+										{
+											alert "אנא בחר גם חוג וגם תאריך לפני מילוי רשימת הנוכחות";
+										}
+						)
+					}
+				}
+
+			}
+			hide_the_class_name as "hide the class name"
+			{
+				type =  form
+				form = Presence
+				record event = on add or edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											hide subform_attendance_by_class.activities_class_attendance;
+						)
+					}
+				}
+
+			}
+			Show_activities_and_price as "Show activities and price"
+			{
+				type =  form
+				form = Payments
+				record event = on edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Workflow עבור טופס Payments
+										// Event: on user input of lookup_participant_name
+										participant_id = input.lookup_participant_name;
+										if(participant_id != null)
+										{
+											// מציאת החוגים של המשתתף
+											participant_activities = Partners_Activity[lookup_name_participant == participant_id && registered == true];
+											if(participant_activities.count() > 0)
+											{
+												// ניקוי ה subform
+												input.invoice.clear();
+												// יצירת שורות חדשות
+												invoice_rows = Collection();
+												total = 0;
+												for each  rec in participant_activities
+												{
+													// קבלת פרטי החוג
+													activity = Activities[ID == rec.lookup_activity];
+													if(activity != null)
+													{
+														// יצירת שורה חדשה
+														row = Payments.invoice();
+														row.activity_name=activity.activity_name;
+														row.participate_price=activity.participate_price;
+														// הוספה לאוסף
+														invoice_rows.insert(row);
+														// חישוב סכום
+														total = total + activity.participate_price;
+													}
+												}
+												// הכנסת השורות לsubform
+												input.invoice.insert(invoice_rows);
+												// עדכון הסכום הכולל
+												input.total_payment = total;
+												input.balance_to_be_paid = total - input.transferred;
+												info "נוספו " + participant_activities.count() + " חוגים. סכום: " + total;
+											}
+											else
+											{
+												alert "לא נמצאו חוגים למשתתף";
+												input.invoice.clear();
+												input.total_payment = 0;
+											}
+										}
+						)
+					}
+				}
+
+			}
+			The_subform_payment_histo1 as "The subform-payment-history will not be editable"
+			{
+				type =  form
+				form = Payments
+				record event = on edit
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											disable subform_payment_history.transferred;
+										disable subform_payment_history.lookup_participant_name;
+										disable subform_payment_history.activity_name_payment_history;
+										disable subform_payment_history.lookup_payment_method;
+						)
+					}
+				}
+
+			}
+		}
+
+
+
+
+
+
+		functions
+		{
+			Making_a_payment_for_clas as "Making a payment for classes"
+			{
+				type =  functions
+				form = Payments
+				execution type = for each record	
+				on start
+				{
+					actions 
+					{
+					on click
+					(
+						// חישוב יתרה לתשלום
+										if(input.balance_to_be_paid == null)
+										{
+											if(input.total_payment != null && input.transferred != null)
+											{
+												input.balance_to_be_paid = input.total_payment - input.transferred;
+											}
+										}
+										else if(input.transferred != null)
+										{
+											input.balance_to_be_paid = input.balance_to_be_paid - input.transferred;
+										}
+										// שליחת מייל
+										participate_rec = Participates[ID == input.lookup_participant_name];
+										if(participate_rec != null && participate_rec.participate_email != null)
+										{
+											sendmail
+											[
+												from :zoho.adminuserid
+												to :participate_rec.participate_email
+												subject :"ביצוע תשלום עבור משתתף/ת: " + input.lookup_participant_name.participate_name
+												message :"הי, בוצע תשלום על סך " + input.transferred + ". היתרה לתשלום: " + input.balance_to_be_paid
+											]
+										}
+										// הוספת רשומה לטופס Payment_History
+										hist_rec = insert into Payment_History
+										[
+											lookup_payment_method=input.ID
+											lookup_participant_name=input.lookup_participant_name
+											transferred=input.transferred
+											Added_User=zoho.loginuser
+											activity_name_payment_history=input.invoice.activity_name
+										];
+					)
+					}
+				}
+			}
+		}
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"מנהל המרכז הקהילתי"
+			{
+				name = "מנהל המרכז הקהילתי"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "מנהל המרכז הקהילתי Profile\n"
+				ModulePermissions
+				{
+					Activities
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Classes_Activities={"View","Edit","Delete"}
+						}
+					}
+					Waiting_List
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Waiting_List2={"View","Edit","Delete"}
+						}
+					}
+					Payment_History
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Payment_History1={"View","Edit","Delete"}
+						}
+					}
+					Guides_Activities
+					{
+						allFieldsVisible= true 
+					}
+					Payments
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Payments1={"View","Edit","Delete"}
+						}
+					}
+					Reports
+					{
+						allFieldsVisible= true 
+					}
+					Rooms
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Rooms1={"View","Edit","Delete"}
+						}
+					}
+					General_Data1
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							General_Data={"View","Edit","Delete"}
+						}
+					}
+					Partners_Activity
+					{
+						allFieldsVisible= true 
+					}
+					Attendance_By_Class
+					{
+						allFieldsVisible= true 
+					}
+					Presence
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							form_Report={"View","Edit","Delete"}
+						}
+					}
+					Guides
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Guides1={"View","Edit","Delete"}
+						}
+					}
+					Participates
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Participants={"View","Edit","Delete"}
+						}
+					}
+					htmlview
+					{
+						enabled = tab
+					}
+				}
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer\n"
+			}
+			"מזכירה"
+			{
+				name = "מזכירה"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "מזכירה Profile\n"
+				ModulePermissions
+				{
+					Activities
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Classes_Activities={"View","Edit","Delete"}
+						}
+					}
+					Waiting_List
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Waiting_List2={"View","Edit","Delete"}
+						}
+					}
+					Payment_History
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Payment_History1={"View"}
+						}
+					}
+					Guides_Activities
+					{
+						allFieldsVisible= true 
+					}
+					Payments
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Payments1={"View","Edit","Delete"}
+						}
+					}
+					Reports
+					{
+						allFieldsVisible= true 
+					}
+					Rooms
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Rooms1={"View","Edit","Delete"}
+						}
+					}
+					General_Data1
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							General_Data={"View"}
+						}
+					}
+					Partners_Activity
+					{
+						allFieldsVisible= true 
+					}
+					Attendance_By_Class
+					{
+						allFieldsVisible= true 
+					}
+					Presence
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							form_Report={"View","Edit","Delete"}
+						}
+					}
+					Guides
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Guides1={"View","Edit","Delete"}
+						}
+					}
+					Participates
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Participants={"View","Edit","Delete"}
+						}
+					}
+					htmlview
+					{
+						enabled = tab
+					}
+				}
+			}
+			"מדריך"
+			{
+				name = "מדריך"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "מדריך Profile\n"
+				ModulePermissions
+				{
+					Activities
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Classes_Activities={"View","Edit","Delete"}
+						}
+					}
+					Waiting_List
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Waiting_List2={"View","Edit","Delete"}
+						}
+					}
+					Payment_History
+					{
+						allFieldsVisible= true 
+					}
+					Guides_Activities
+					{
+						allFieldsVisible= true 
+					}
+					Payments
+					{
+						allFieldsVisible= true 
+					}
+					Reports
+					{
+						allFieldsVisible= true 
+					}
+					Rooms
+					{
+						allFieldsVisible= true 
+					}
+					General_Data1
+					{
+						allFieldsVisible= true 
+					}
+					Partners_Activity
+					{
+						allFieldsVisible= true 
+					}
+					Attendance_By_Class
+					{
+						allFieldsVisible= true 
+					}
+					Presence
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab,read_comm,write_comm 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							form_Report={"View","Edit","Delete"}
+						}
+					}
+					Guides
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Guides1={"View","Edit","Delete"}
+						}
+					}
+					Participates
+					{
+						enabled= Create,Viewall,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Participants={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+					"מזכירה"
+					{
+						description = ""
+					}
+					"מדריך"
+					{
+						description = ""
+					}
+				}
+			}
+	}
+
+
+	web
+	{
+		forms
+		{
+			form Reports
+			{
+				label placement = left
+			}
+			form Payment_History
+			{
+				label placement = left
+			}
+			form Rooms
+			{
+				label placement = left
+			}
+			form Activities
+			{
+				label placement = left
+			}
+			form Guides
+			{
+				label placement = left
+			}
+			form Guides_Activities
+			{
+				label placement = left
+			}
+			form Participates
+			{
+				label placement = left
+			}
+			form Partners_Activity
+			{
+				label placement = left
+			}
+			form Presence
+			{
+				label placement = left
+			}
+			form Attendance_By_Class
+			{
+				label placement = left
+			}
+			form General_Data1
+			{
+				label placement = left
+			}
+			form Waiting_List
+			{
+				label placement = left
+			}
+			form Payments
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report General_Data
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								center_name as "שם המרכז הקהילתי"
+								center_address as "כתובת משרדי המנהל"
+								center_email as "כתובת דוא\"ל"
+								center_phone as "טלפון במרכז הקהילתי"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								center_name as "שם המרכז הקהילתי"
+								center_address as "כתובת משרדי המנהל"
+								center_email as "כתובת דוא\"ל"
+								center_phone as "טלפון במרכז הקהילתי"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Participants
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								participate_name as "שם משתתף"
+								participate_age as "גיל המשתתף"
+								active_participan as "האם המשתתף פעיל "
+								sub_form_activity.lookup_activity as "חוגים"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								participate_name as "שם משתתף"
+								participate_email as "כתובת דוא\"ל"
+								participate_phone as "מספר טלפון נייד"
+								participate_address as "כתובת"
+								participate_age as "גיל המשתתף"
+								active_participan as "האם המשתתף פעיל "
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Classes_Activities
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 2
+						datablock1
+						(
+							layout type = 4
+							fields
+							(
+								activity_name as "שם החוג"
+								activity_description as "תיאור החוג"
+								participate_price as "עלות השתתפות"
+								lookup_room_name as "שם חדר"
+								activity_day as "יום בשבוע"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+	 					type = 2
+						datablock1
+						(
+							layout type = -6
+		     				title = "Overview"
+							fields
+							(
+								participate_price as "עלות השתתפות"
+								from_age as "מגיל"
+								up_to_age as "עד גיל"
+								activity_name as "שם החוג"
+								activity_description as "תיאור החוג"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "מדריכים המעבירים את החוג"
+		     				related field = subform_guide
+							fields
+							(
+								activity_name as "שם חוג"
+								guied_name as "שם המדריך"
+								active as "פעיל"
+							)
+						)
+						datablock3
+						(
+							layout type = -1
+		     				title = "שמות משתתפים"
+		     				related field = sub_form_participants
+							fields
+							(
+								lookup_activity as "חוג"
+								lookup_name_participant as "שם משתתף"
+								registered as "רשום"
+							)
+						)
+						datablock4
+						(
+							layout type = -2
+		     				title = "שם חדר"
+		     				related field = lookup_room_name
+							fields
+							(
+								room_name as "שם החדר"
+								room_description as "תיאור"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Guides1
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								employee_name as "שם העובד"
+								active_guide as "מדריך פעיל"
+								subform_activities.activity_name as "חוגים"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								employee_name as "שם העובד"
+								employee_email as "כתובת דוא\"ל"
+								employee_phone as "מספר טלפון נייד"
+								employee_address as "כתובת "
+								active_guide as "מדריך פעיל"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Instructors___Classes
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								activity_name as "שם חוג"
+								guied_name as "שם המדריך"
+								active as "פעיל"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								activity_name as "שם חוג"
+								guied_name as "שם המדריך"
+								active as "פעיל"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Payments1
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								lookup_participant_name as "שם המשתתף"
+								invoice.activity_name as "חשבונית"
+								"ביצוע תשלום"
+								transferred as "סכום שהועבר"
+								balance_to_be_paid as "יתרה לתשלום"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+	 					type = 2
+						datablock1
+						(
+							layout type = -6
+		     				title = "Overview"
+							fields
+							(
+								lookup_participant_name as "שם המשתתף"
+								total_payment as "סה\"כ תשלום"
+								balance_to_be_paid as "יתרה לתשלום"
+							)
+						)
+						datablock2
+						(
+							layout type = -1
+		     				title = "היסטוריית תשלומים"
+		     				related field = subform_payment_history
+							fields
+							(
+								lookup_participant_name as "שם משתתף"
+								activity_name_payment_history as "שם החוג"
+								transferred as "סכו\"ם שהועבר"
+								lookup_payment_method as "אמצעי תשלום"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Rooms1
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								room_name as "שם החדר"
+								room_description as "תיאור"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								room_name as "שם החדר"
+								room_description as "תיאור"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Class_Participants
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								lookup_activity as "חוג"
+								lookup_name_participant as "שם משתתף"
+								registered as "רשום"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								lookup_activity as "חוג"
+								lookup_name_participant as "שם משתתף"
+								registered as "רשום"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Waiting_List2
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								lookup_participant_name as "שם משתתף"
+								lookup_activitie_name as "שם החוג"
+								lookup_participant_name.Modified_Time as "Modified Time"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								lookup_participant_name as "שם משתתף"
+								lookup_activitie_name as "שם החוג"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report Payment_History1
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								lookup_participant_name as "שם משתתף"
+								transferred as "סכו\"ם שהועבר"
+								lookup_payment_method as "אמצעי תשלום"
+								activity_name_payment_history as "שם החוג"
+								Modified_Time as "Modified Time"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								lookup_participant_name as "שם משתתף"
+								transferred as "סכו\"ם שהועבר"
+								lookup_payment_method as "אמצעי תשלום"
+								activity_name_payment_history as "שם החוג"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report form_Report
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								date_field as "תאריך"
+								lookup_activities_present as "חוגים ופעילויות"
+								subform_attendance_by_class.Lookup as "רשימת נוכחות"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								date_field as "תאריך"
+								lookup_activities_present as "חוגים ופעילויות"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report form_Report1
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+							fields
+							(
+								activities_class_attendance as "חוגים ופעילויות"
+								Lookup as "משתתפים"
+								was_present as "האם נכח"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+							fields
+							(
+								activities_class_attendance as "חוגים ופעילויות"
+								Lookup as "משתתפים"
+								was_present as "האם נכח"
+							)
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+			report form_Report2
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = -1
+						datablock1
+						(
+							layout type = -1
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+    				)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = -2
+						)
+					)
+					menu
+    				(
+    	 				header
+    	 				(
+    		 				Edit 
+    		 				Duplicate 
+    		 				Delete 
+    	 				)
+    				)
+				)
+			}
+		}
+		menu
+		{
+			unused
+			{
+				form  General_Data1
+				{
+					icon = "tech-desktop"
+				}
+				systemcomponent
+				{
+					type = localization
+					displayname = "Language Selection"
+					icon = "education-language"
+				}
+				systemcomponent
+				{
+					type = connection
+					displayname = "Integrations"
+					icon = "tech-2-connection"
+				}
+				systemcomponent
+				{
+					type = approval
+					approval status = pending
+					displayname = "Pending Tasks"
+					icon = "ui-2-hourglass"
+				}
+				systemcomponent
+				{
+					type = approval
+					approval status = completed
+					displayname = "Completed Tasks"
+					icon = "design-todo"
+				}
+				form  Participates
+				{
+					icon = "tech-desktop"
+				}
+				form  Activities
+				{
+					icon = "tech-desktop"
+				}
+				form  Guides
+				{
+					icon = "tech-desktop"
+				}
+				form  Payments
+				{
+					icon = "tech-desktop"
+				}
+				form  Guides_Activities
+				{
+					icon = "tech-desktop"
+				}
+				form  Rooms
+				{
+					icon = "tech-desktop"
+				}
+				form  Partners_Activity
+				{
+					icon = "tech-desktop"
+				}
+				form  Waiting_List
+				{
+					icon = "tech-desktop"
+				}
+				form  Payment_History
+				{
+					icon = "tech-desktop"
+				}
+				form  Presence
+				{
+					icon = "tech-desktop"
+				}
+				form  Attendance_By_Class
+				{
+					icon = "tech-desktop"
+				}
+				form  Reports
+				{
+					icon = "tech-desktop"
+				}
+				report form_Report2
+				{
+					icon = "tech-desktop"
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+			}
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+					page htmlview
+					{
+						icon = "ui-1-dashboard-30"
+					}
+					page htmlview1
+					{
+						icon = "ui-1-calendar-grid-61"
+					}
+				section Section3
+				{
+					displayname = "חוגים ופעילויות"
+					icon = "education-school"
+					report Classes_Activities
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section
+				{
+					displayname = "רישום משתתפים"
+					icon = "design-pen-01"
+					report Participants
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section5
+				{
+					displayname = "מדריכים"
+					icon = "users-2-woman"
+					report Guides1
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section9
+				{
+					displayname = "רשימת המתנה"
+					icon = "shopping-list"
+					report Waiting_List2
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section8
+				{
+					displayname = "תשלומים"
+					icon = "business-calculator"
+					report Payments1
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section2
+				{
+					displayname = "נוכחות"
+					icon = "gestures-tap-01"
+					report form_Report
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Section4
+				{
+					displayname = "הגדרות"
+					icon = "loader-gear"
+					report General_Data
+					{
+						icon = "tech-desktop"
+					}
+					report Rooms1
+					{
+						icon = "tech-desktop"
+					}
+					report Payment_History1
+					{
+						icon = "tech-desktop"
+					}
+					report Class_Participants
+					{
+						icon = "tech-desktop"
+					}
+					report Instructors___Classes
+					{
+						icon = "tech-desktop"
+					}
+					report form_Report1
+					{
+						icon = "tech-desktop"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+					show = {section}
+				}
+			}
+		}
+		customize
+		{
+			new theme = 2
+			font = "lato"
+			color options
+			{
+				menu color = "#aec6f8"
+				header color = "#e8eefd"
+				name = "custom_color_2"
+				brand color = "#1d508e"
+				type = "custom"
+				sub menu color = "#e8eefd"
+			}
+			logo
+			{
+				preference = "none"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form Reports
+			{
+				label placement = auto
+			}
+			form Payment_History
+			{
+				label placement = auto
+			}
+			form Rooms
+			{
+				label placement = auto
+			}
+			form Activities
+			{
+				label placement = auto
+			}
+			form Guides
+			{
+				label placement = auto
+			}
+			form Guides_Activities
+			{
+				label placement = auto
+			}
+			form Participates
+			{
+				label placement = auto
+			}
+			form Partners_Activity
+			{
+				label placement = auto
+			}
+			form Presence
+			{
+				label placement = auto
+			}
+			form Attendance_By_Class
+			{
+				label placement = auto
+			}
+			form General_Data1
+			{
+				label placement = auto
+			}
+			form Waiting_List
+			{
+				label placement = auto
+			}
+			form Payments
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				type = "custom"
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form Reports
+			{
+				label placement = auto
+			}
+			form Payment_History
+			{
+				label placement = auto
+			}
+			form Rooms
+			{
+				label placement = auto
+			}
+			form Activities
+			{
+				label placement = auto
+			}
+			form Guides
+			{
+				label placement = auto
+			}
+			form Guides_Activities
+			{
+				label placement = auto
+			}
+			form Participates
+			{
+				label placement = auto
+			}
+			form Partners_Activity
+			{
+				label placement = auto
+			}
+			form Presence
+			{
+				label placement = auto
+			}
+			form Attendance_By_Class
+			{
+				label placement = auto
+			}
+			form General_Data1
+			{
+				label placement = auto
+			}
+			form Waiting_List
+			{
+				label placement = auto
+			}
+			form Payments
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				type = "custom"
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
